@@ -1,5 +1,6 @@
 package com.example.TaskProject.repo;
 
+import com.example.TaskProject.TaskProjectApplication;
 import com.example.TaskProject.entity.InventoryLocation;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,12 +14,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+@SuppressWarnings("ALL")
 @Repository
 public class InventoryLocationRepoImpl implements InventoryLocationRepo{
 
-    private String API_KEY = "cfe543d2c31f2b29@m146529";
+    private final String API_KEY = TaskProjectApplication.API_KEY;
 
-    private static final String API_URL = "https://api.megaventory.com/v2017a/json/reply/InventoryLocationGet";
+    private static final String API_URL = TaskProjectApplication.BASE_URL+"/json/reply/InventoryLocationGet";
 
     @Override
     public List<InventoryLocation> getAll() {
@@ -44,7 +46,6 @@ public class InventoryLocationRepoImpl implements InventoryLocationRepo{
                 }
                 reader.close();
 
-                // Process the response (parse JSON and create InventoryLocation objects)
                 String responseBody = response.toString();
                 inventoryLocations = parseInventoryLocations(responseBody);
             } else {
@@ -85,7 +86,7 @@ public class InventoryLocationRepoImpl implements InventoryLocationRepo{
     public void add(InventoryLocation inventoryLocation) {
         try {
             // Construct the URL for the API endpoint
-            URL url = new URL("https://api.megaventory.com/v2017a/InventoryLocation/InventoryLocationUpdate");
+            URL url = new URL(TaskProjectApplication.BASE_URL+"/InventoryLocation/InventoryLocationUpdate");
 
             // Create a HTTP POST request
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

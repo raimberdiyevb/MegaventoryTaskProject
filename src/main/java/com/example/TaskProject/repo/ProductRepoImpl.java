@@ -1,11 +1,10 @@
 package com.example.TaskProject.repo;
 
+import com.example.TaskProject.TaskProjectApplication;
 import com.example.TaskProject.entity.Product;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Repository;
 
 import java.io.BufferedReader;
@@ -17,14 +16,14 @@ import java.util.*;
 
 @Repository
 public class ProductRepoImpl implements ProductRepo{
-    private static String API_KEY = "cfe543d2c31f2b29@m146529";
-    private static final String API_URL = "https://api.megaventory.com/v2017a/json/reply/ProductGet";
+    private final String API_KEY = TaskProjectApplication.API_KEY;
+    private final String API_URL = TaskProjectApplication.BASE_URL + "/json/reply/ProductGet";
 
     @Override
     public void add(Product product) {
         try {
             // Construct the URL for the API endpoint
-            URL url = new URL("https://api.megaventory.com/v2017a/Product/ProductUpdate");
+            URL url = new URL(API_URL+"/Product/ProductUpdate");
 
             // Create a HTTP POST request
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();

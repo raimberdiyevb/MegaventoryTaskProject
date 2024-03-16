@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/raim/megaventory")
 public class Controller {
-    private ApplicationService applicationService;
+    private final ApplicationService applicationService;
 
     @Autowired
     public Controller(ApplicationService applicationService) {
@@ -28,9 +28,9 @@ public class Controller {
     public List<Product> getAllProducts(){
         return applicationService.getAllProducts();
     }
-    @GetMapping("/products/{productid}")
-    public Product getProductById(@PathVariable int productid){
-        return applicationService.getProductById(productid);
+    @GetMapping("/products/{productId}")
+    public Product getProductById(@PathVariable int productId){
+        return applicationService.getProductById(productId);
     }
 
     @PostMapping("/products")

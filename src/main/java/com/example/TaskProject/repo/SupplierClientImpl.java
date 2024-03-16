@@ -1,5 +1,6 @@
 package com.example.TaskProject.repo;
 
+import com.example.TaskProject.TaskProjectApplication;
 import com.example.TaskProject.entity.SupplierClient;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,8 +18,8 @@ import java.util.List;
 
 @Repository
 public class SupplierClientImpl implements SupplierClientRepo{
-    private static final String API_KEY = "cfe543d2c31f2b29@m146529";
-    private static final String API_URL = "https://api.megaventory.com/v2017a/json/reply/SupplierClientGet";
+    private final String API_KEY = TaskProjectApplication.API_KEY;
+    private final String API_URL = TaskProjectApplication.BASE_URL+"/json/reply/SupplierClientGet";
     @Override
     public List<SupplierClient> getAll() {
         List<SupplierClient> supplierClients = null;
@@ -62,7 +63,7 @@ public class SupplierClientImpl implements SupplierClientRepo{
     public void add(SupplierClient supplierClient,String clientType) {
         try {
             // Construct the URL for the API endpoint
-            URL url = new URL("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate");
+            URL url = new URL(TaskProjectApplication.BASE_URL+"/SupplierClient/SupplierClientUpdate");
 
             // Create a HTTP POST request
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
