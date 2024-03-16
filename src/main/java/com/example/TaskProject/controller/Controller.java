@@ -1,11 +1,13 @@
 package com.example.TaskProject.controller;
 
+import com.example.TaskProject.entity.InventoryLocation;
 import com.example.TaskProject.entity.Product;
 import com.example.TaskProject.entity.SupplierClient;
 import com.example.TaskProject.entity.SupplierClientRequest;
 import com.example.TaskProject.repo.ProductRepo;
 import com.example.TaskProject.repo.ProductRepoImpl;
 import com.example.TaskProject.repo.SupplierClientRepo;
+import com.example.TaskProject.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -13,42 +15,51 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@RequestMapping("/api/v1/raim/megaventory")
 public class Controller {
-    private ProductRepoImpl productRepoImpl;
-    private SupplierClientRepo supplierClientRepo;
+    private ApplicationService applicationService;
 
     @Autowired
-    public Controller(ProductRepoImpl productRepoImpl, SupplierClientRepo supplierClientRepo) {
-        this.productRepoImpl = productRepoImpl;
-        this.supplierClientRepo = supplierClientRepo;
+    public Controller(ApplicationService applicationService) {
+        this.applicationService = applicationService;
     }
 
-    @GetMapping("api/megaventory/products")
-    public List<Product> test(){
-        return productRepoImpl.getAllProducts();
+    @GetMapping("/products")
+    public List<Product> getAllProducts(){
+        return applicationService.getAllProducts();
     }
-    @GetMapping("api/megaventory/products/{productid}")
-    public Product test(@PathVariable int productid){
-        return productRepoImpl.getProductById(productid);
+    @GetMapping("/products/{productid}")
+    public Product getProductById(@PathVariable int productid){
+        return applicationService.getProductById(productid);
     }
 
-    @PostMapping("api/megaventory/products")
-    public Product insert(@RequestBody Product product){
-        productRepoImpl.add(product);
+    @PostMapping("/products")
+    public Product insertProduct(@RequestBody Product product){
+        applicationService.insertProduct(product);
         return product;
     }
 
-    @GetMapping("api/megaventory/clients")
-    public List<SupplierClient> getAllClients(){
-        return supplierClientRepo.getAll();
+    @GetMapping("/clients")
+    public List<SupplierClient> getAllSupplierClients(){
+        return applicationService.getAllSupplierClients();
     }
 
-    @PostMapping("api/megaventory/clients")
-    public SupplierClient insert(@RequestBody SupplierClientRequest supplierClientRequest){
+    @PostMapping("/clients")
+    public SupplierClient insertSupplierClient(@RequestBody SupplierClientRequest supplierClientRequest){
         String type = supplierClientRequest.getType();
         SupplierClient supplierClient = new SupplierClient(supplierClientRequest.getName(), supplierClientRequest.getEmail(), supplierClientRequest.getShippingAddress(), supplierClientRequest.getPhone());
-        supplierClientRepo.add(supplierClient,type);
+        applicationService.insertSupplierClient(supplierClient,type);
         return supplierClient;
+    }
+    @GetMapping("/locations")
+    public List<InventoryLocation> getAllInventoryLocations(){
+        return applicationService.getAllInventoryLocations();
+    }
+
+    @PostMapping("/locations")
+    public InventoryLocation insertInventoryLocation(@RequestBody InventoryLocation inventoryLocation){
+        applicationService.insertInventoryLocation(inventoryLocation);
+        return inventoryLocation;
     }
 
 }
