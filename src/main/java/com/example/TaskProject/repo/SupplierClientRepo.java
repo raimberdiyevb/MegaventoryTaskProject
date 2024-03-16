@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface SupplierClientRepo {
     List<SupplierClient> getAll();
-    SupplierClient getById();
+    //SupplierClient getById(int id);
 
-    void add(SupplierClient supplierClient);
+    void add(SupplierClient supplierClient,String supplierOrClient);
 }

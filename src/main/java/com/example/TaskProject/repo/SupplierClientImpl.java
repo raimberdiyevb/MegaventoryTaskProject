@@ -58,6 +58,52 @@ public class SupplierClientImpl implements SupplierClientRepo{
         }
         return supplierClients;
     }
+    @Override
+    public void add(SupplierClient supplierClient,String clientType) {
+        try {
+            // Construct the URL for the API endpoint
+            URL url = new URL("https://api.megaventory.com/v2017a/SupplierClient/SupplierClientUpdate");
+
+            // Create a HTTP POST request
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setDoOutput(true);
+
+            // Construct the JSON payload
+            String payload = "{\n" +
+                    "  \"APIKEY\": \"" + API_KEY + "\",\n" +
+                    "  \"mvSupplierClient\": {\n" +
+                    "    \"SupplierClientType\": \"" + clientType + "\",\n" + // Set the client type
+                    "    \"SupplierClientName\": \"" + supplierClient.getName() + "\",\n" + // Set the client name
+                    "    \"SupplierClientEmail\": \"" + supplierClient.getEmail() + "\",\n" + // Set the client email
+                    "    \"SupplierClientShippingAddress\": \"" + supplierClient.getShippingAddress() + "\",\n" + // Set the shipping address
+                    "    \"SupplierClientPhone\": \"" + supplierClient.getPhone() + "\"\n" + // Set the client phone
+                    "  },\n" +
+                    "  \"mvRecordAction\": \"Insert\"\n" +
+                    "}";
+
+            // Write the payload to the connection
+            try (OutputStream outputStream = connection.getOutputStream()) {
+                byte[] input = payload.getBytes("utf-8");
+                outputStream.write(input, 0, input.length);
+            }
+
+            // Send the request and handle the response
+            int responseCode = connection.getResponseCode();
+            if (responseCode == HttpURLConnection.HTTP_OK) {
+                System.out.println("Supplier client added successfully");
+            } else {
+                System.out.println("Failed to add supplier client. Response Code: " + responseCode);
+            }
+
+            // Close the connection
+            connection.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public List<SupplierClient> getSupplierClientsFromJSON(String responseBody) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -82,15 +128,5 @@ public class SupplierClientImpl implements SupplierClientRepo{
         }
 
         return supplierClients;
-    }
-
-    @Override
-    public SupplierClient getById() {
-        return null;
-    }
-
-    @Override
-    public void add(SupplierClient supplierClient) {
-
     }
 }

@@ -2,6 +2,7 @@ package com.example.TaskProject.controller;
 
 import com.example.TaskProject.entity.Product;
 import com.example.TaskProject.entity.SupplierClient;
+import com.example.TaskProject.entity.SupplierClientRequest;
 import com.example.TaskProject.repo.ProductRepo;
 import com.example.TaskProject.repo.ProductRepoImpl;
 import com.example.TaskProject.repo.SupplierClientRepo;
@@ -40,6 +41,14 @@ public class Controller {
     @GetMapping("api/megaventory/clients")
     public List<SupplierClient> getAllClients(){
         return supplierClientRepo.getAll();
+    }
+
+    @PostMapping("api/megaventory/clients")
+    public SupplierClient insert(@RequestBody SupplierClientRequest supplierClientRequest){
+        String type = supplierClientRequest.getType();
+        SupplierClient supplierClient = new SupplierClient(supplierClientRequest.getName(), supplierClientRequest.getEmail(), supplierClientRequest.getShippingAddress(), supplierClientRequest.getPhone());
+        supplierClientRepo.add(supplierClient,type);
+        return supplierClient;
     }
 
 }
