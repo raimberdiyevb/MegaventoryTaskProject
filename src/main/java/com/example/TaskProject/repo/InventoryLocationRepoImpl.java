@@ -16,7 +16,7 @@ import java.util.List;
 
 @SuppressWarnings("ALL")
 @Repository
-public class InventoryLocationRepoImpl implements InventoryLocationRepo{
+public class InventoryLocationRepoImpl implements BaseRepo<InventoryLocation>{
 
     private final String API_KEY = TaskProjectApplication.API_KEY;
 

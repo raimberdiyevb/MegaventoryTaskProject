@@ -15,7 +15,7 @@ import java.net.URL;
 import java.util.*;
 
 @Repository
-public class ProductRepoImpl implements ProductRepo{
+public class ProductRepoImpl implements BaseRepo<Product>{
     private final String API_KEY = TaskProjectApplication.API_KEY;
     private final String API_URL = TaskProjectApplication.BASE_URL + "/json/reply/ProductGet";
 
@@ -64,8 +64,6 @@ public class ProductRepoImpl implements ProductRepo{
         }
     }
 
-
-    @Override
     public Product getProductById(int id) {
         Product product = null;
 
@@ -106,7 +104,7 @@ public class ProductRepoImpl implements ProductRepo{
     }
 
     @Override
-    public List<Product> getAllProducts() {
+    public List<Product> getAll() {
         List<Product> products = null;
 
         try {

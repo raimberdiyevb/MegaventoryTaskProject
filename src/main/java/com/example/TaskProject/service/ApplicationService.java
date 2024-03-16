@@ -3,29 +3,26 @@ package com.example.TaskProject.service;
 import com.example.TaskProject.entity.InventoryLocation;
 import com.example.TaskProject.entity.Product;
 import com.example.TaskProject.entity.SupplierClient;
-import com.example.TaskProject.repo.InventoryLocationRepo;
-import com.example.TaskProject.repo.ProductRepoImpl;
-import com.example.TaskProject.repo.SupplierClientRepo;
+import com.example.TaskProject.repo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sound.sampled.Port;
 import java.util.List;
 
 @Service
 public class ApplicationService {
     private final ProductRepoImpl productRepoImpl;
-    private final SupplierClientRepo supplierClientRepo;
-    private final InventoryLocationRepo inventoryLocationRepo;
+    private final SupplierClientRepoImpl supplierClientRepoImpl;
+    private final InventoryLocationRepoImpl inventoryLocationRepoImpl;
 
     @Autowired
-    public ApplicationService(ProductRepoImpl productRepoImpl, SupplierClientRepo supplierClientRepo, InventoryLocationRepo inventoryLocationRepo) {
+    public ApplicationService(ProductRepoImpl productRepoImpl, SupplierClientRepoImpl supplierClientRepoImpl, InventoryLocationRepoImpl inventoryLocationRepoImpl) {
         this.productRepoImpl = productRepoImpl;
-        this.supplierClientRepo = supplierClientRepo;
-        this.inventoryLocationRepo = inventoryLocationRepo;
+        this.supplierClientRepoImpl = supplierClientRepoImpl;
+        this.inventoryLocationRepoImpl = inventoryLocationRepoImpl;
     }
     public List<Product> getAllProducts(){
-        return productRepoImpl.getAllProducts();
+        return productRepoImpl.getAll();
     }
     public Product getProductById(int id){
         return productRepoImpl.getProductById(id);
@@ -35,18 +32,18 @@ public class ApplicationService {
     }
 
     public List<SupplierClient> getAllSupplierClients() {
-        return supplierClientRepo.getAll();
+        return supplierClientRepoImpl.getAll();
     }
 
     public void insertSupplierClient(SupplierClient supplierClient,String supplierOrClient){
-        supplierClientRepo.add(supplierClient,supplierOrClient);
+        supplierClientRepoImpl.add(supplierClient,supplierOrClient);
     }
 
     public List<InventoryLocation> getAllInventoryLocations(){
-        return inventoryLocationRepo.getAll();
+        return inventoryLocationRepoImpl.getAll();
     }
 
     public void insertInventoryLocation(InventoryLocation inventoryLocation){
-        inventoryLocationRepo.add(inventoryLocation);
+        inventoryLocationRepoImpl.add(inventoryLocation);
     }
 }

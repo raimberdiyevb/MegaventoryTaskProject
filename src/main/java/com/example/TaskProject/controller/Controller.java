@@ -4,12 +4,8 @@ import com.example.TaskProject.entity.InventoryLocation;
 import com.example.TaskProject.entity.Product;
 import com.example.TaskProject.entity.SupplierClient;
 import com.example.TaskProject.entity.SupplierClientRequest;
-import com.example.TaskProject.repo.ProductRepo;
-import com.example.TaskProject.repo.ProductRepoImpl;
-import com.example.TaskProject.repo.SupplierClientRepo;
 import com.example.TaskProject.service.ApplicationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

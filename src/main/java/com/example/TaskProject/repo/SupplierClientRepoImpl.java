@@ -6,18 +6,18 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.List;
 
 @Repository
-public class SupplierClientImpl implements SupplierClientRepo{
+public class SupplierClientRepoImpl implements BaseRepo<SupplierClient>{
     private final String API_KEY = TaskProjectApplication.API_KEY;
     private final String API_URL = TaskProjectApplication.BASE_URL+"/json/reply/SupplierClientGet";
     @Override
@@ -28,7 +28,7 @@ public class SupplierClientImpl implements SupplierClientRepo{
             // Construct the URL with API key
             URL url = new URL(API_URL + "?APIKEY=" + API_KEY);
 
-            // Create a HTTP GET request
+            // Create an HTTP GET request
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
 
@@ -55,17 +55,21 @@ public class SupplierClientImpl implements SupplierClientRepo{
             // Close the connection
             connection.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
         return supplierClients;
     }
+
     @Override
+    public void add(SupplierClient entity) {
+    }
+
     public void add(SupplierClient supplierClient,String clientType) {
         try {
             // Construct the URL for the API endpoint
             URL url = new URL(TaskProjectApplication.BASE_URL+"/SupplierClient/SupplierClientUpdate");
 
-            // Create a HTTP POST request
+            // Create an HTTP POST request
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -86,7 +90,7 @@ public class SupplierClientImpl implements SupplierClientRepo{
 
             // Write the payload to the connection
             try (OutputStream outputStream = connection.getOutputStream()) {
-                byte[] input = payload.getBytes("utf-8");
+                byte[] input = payload.getBytes(StandardCharsets.UTF_8);
                 outputStream.write(input, 0, input.length);
             }
 
@@ -101,7 +105,7 @@ public class SupplierClientImpl implements SupplierClientRepo{
             // Close the connection
             connection.disconnect();
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
     }
 
